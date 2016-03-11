@@ -3,7 +3,7 @@
 //  NewWineClient
 //
 //  Created by 马少洋 on 16/3/10.
-//  Copyright © 2016年 马少洋. All rights reserved.
+//  Copyright © 2016年 贵永冬. All rights reserved.
 //
 
 import UIKit
@@ -17,6 +17,7 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
     //显示取消按钮
     var cancelString : String?
     
+    var cellNumber : NSInteger?
     private let titleCellHeight:CGFloat = 30
     private let dataCellHight:CGFloat = 40
     private let cancelCellHight:CGFloat = 50
@@ -39,6 +40,11 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
     func setCellValue(title title : String,dataCell : NSArray,cancelString:String,cellDidCliked:Closures){
         self.titleString = title
         self.dataSourceArray = dataCell
+        if(self.dataSourceArray != nil && self.dataSourceArray?.count > 0){
+            self.cellNumber = self.dataSourceArray?.count
+        }else{
+            self.cellNumber = 0
+        }
         self.cancelString = cancelString
         self.cellDidCliked = cellDidCliked
         self.reloadData()
@@ -48,7 +54,7 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if(indexPath.row == 0){
             return self.createCellByTitleLabel()
-        }else if(indexPath.row != (self.dataSourceArray?.count)! + 1){
+        }else if(indexPath.row != (self.cellNumber)! + 1){
             return self.createCellByDataCellLabel(indexPath)
         }
         
@@ -57,17 +63,17 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if(indexPath.row == 0){
             return titleCellHeight
-        }else if(indexPath.row != (self.dataSourceArray?.count)! + 1 ){
+        }else if(indexPath.row !=  self.cellNumber! + 1 ){
             return dataCellHight
         }else{
             return cancelCellHight
         }
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(self.dataSourceArray == nil){
-            return 0 
+        if(self.dataSourceArray != nil && self.cellNumber != 0){
+            return (self.cellNumber)! + 2
         }
-       return (self.dataSourceArray?.count)! + 2
+        return 2
     }
 
     /**
@@ -103,8 +109,14 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
             let line : UIView = self.createCellBottonLine(frame: CGRectMake(0,self.dataCellHight - 0.5 ,self.frame.size.width,0.5))
             cell.contentView.addSubview(line)
         }
-        let text : String = (self.dataSourceArray![index.row - 1] as? String)!
-        label?.text = text
+        let obj : AnyObject? = self.dataSourceArray![index.row - 1];
+        if(obj is String){
+            let text : String = (self.dataSourceArray![index.row - 1] as? String)!
+            label?.text = text
+        }else{
+            let text : NSMutableAttributedString = (self.dataSourceArray![index.row - 1] as? NSMutableAttributedString)!
+            label?.attributedText = text
+        }
         return cell
     }
     

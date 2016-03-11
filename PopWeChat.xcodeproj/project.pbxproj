@@ -13,7 +13,7 @@
 		10164C201C92A7C4001FEF46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10164C1E1C92A7C4001FEF46 /* LaunchScreen.storyboard */; };
 		10164C2A1C92A7D8001FEF46 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10164C271C92A7D8001FEF46 /* ViewController.swift */; };
 		10164C2B1C92A7D8001FEF46 /* JKMMCustomBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10164C281C92A7D8001FEF46 /* JKMMCustomBackView.swift */; };
-		10164C2C1C92A7D8001FEF46 /* JKMMCustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10164C291C92A7D8001FEF46 /* JKMMCustomTableView.swift */; };
+		10164C2E1C92CB48001FEF46 /* JKMMCustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10164C2D1C92CB48001FEF46 /* JKMMCustomTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +25,7 @@
 		10164C211C92A7C4001FEF46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10164C271C92A7D8001FEF46 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		10164C281C92A7D8001FEF46 /* JKMMCustomBackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKMMCustomBackView.swift; sourceTree = "<group>"; };
-		10164C291C92A7D8001FEF46 /* JKMMCustomTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKMMCustomTableView.swift; sourceTree = "<group>"; };
+		10164C2D1C92CB48001FEF46 /* JKMMCustomTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKMMCustomTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 				10164C151C92A7C4001FEF46 /* AppDelegate.swift */,
 				10164C271C92A7D8001FEF46 /* ViewController.swift */,
 				10164C281C92A7D8001FEF46 /* JKMMCustomBackView.swift */,
-				10164C291C92A7D8001FEF46 /* JKMMCustomTableView.swift */,
+				10164C2D1C92CB48001FEF46 /* JKMMCustomTableView.swift */,
 				10164C191C92A7C4001FEF46 /* Main.storyboard */,
 				10164C1C1C92A7C4001FEF46 /* Assets.xcassets */,
 				10164C1E1C92A7C4001FEF46 /* LaunchScreen.storyboard */,
@@ -142,7 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				10164C2B1C92A7D8001FEF46 /* JKMMCustomBackView.swift in Sources */,
-				10164C2C1C92A7D8001FEF46 /* JKMMCustomTableView.swift in Sources */,
+				10164C2E1C92CB48001FEF46 /* JKMMCustomTableView.swift in Sources */,
 				10164C2A1C92A7D8001FEF46 /* ViewController.swift in Sources */,
 				10164C161C92A7C4001FEF46 /* AppDelegate.swift in Sources */,
 			);
@@ -294,6 +294,7 @@
 				10164C261C92A7C4001FEF46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
