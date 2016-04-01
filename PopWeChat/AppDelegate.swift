@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = rvc
         self.window?.backgroundColor = UIColor.whiteColor()
         self.window?.makeKeyAndVisible()
+        
+        
+        
+        print("这是在new分支上的一个改动,稍后会将这个改动同步到master分支")
+        
         return true
     }
 
