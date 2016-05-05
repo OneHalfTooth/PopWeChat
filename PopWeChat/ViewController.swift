@@ -31,12 +31,16 @@ class ViewController: UIViewController {
     }
     func buttonDidCliked(button:UIButton){
         self.bottomView = JKMMCustomBackView(frame: self.view.bounds)
-        self.bottomView?.createCustomViewData(dataTitle: ["😊","😢","🔋","🐑"], title: "表情大全", cannle: "完成", cellDidCliked: { (text) -> Void in
+//        self.bottomView?.createCustomViewData(dataTitle: ["😊","😢","🔋","🐑"], title: "不是吧", cannle: "完成", cellDidCliked: { (text) -> Void in
+//            print("选择了\(text)")
+//            self.bottomView?.closeView()
+//        })
+
+        self.bottomView?.createCustomViewData(dataTitle: ["😊","😢","🔋","🐑"], title: nil, cannle: "完成", cellDidCliked: { (text) -> Void in
             print("选择了\(text)")
             self.bottomView?.closeView()
         })
-        self.bottomView?.showView()
-       
+
     }
 
     override func didReceiveMemoryWarning() {

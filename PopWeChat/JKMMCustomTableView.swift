@@ -31,13 +31,14 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
         self.scrollEnabled = false
         self.separatorStyle = UITableViewCellSeparatorStyle.None
         self.registerClass(UITableViewCell.self, forCellReuseIdentifier:  "MSYIdentifier")
+        self.backgroundColor = UIColor.redColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     //给cell赋值
-    func setCellValue(title title : String,dataCell : NSArray,cancelString:String,cellDidCliked:Closures){
+    func setCellValue(title title : String?,dataCell : NSArray,cancelString:String,cellDidCliked:Closures){
         self.titleString = title
         self.dataSourceArray = dataCell
         if(self.dataSourceArray != nil && self.dataSourceArray?.count > 0){
@@ -52,24 +53,44 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
     
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if(indexPath.row == 0){
-            return self.createCellByTitleLabel()
-        }else if(indexPath.row != (self.cellNumber)! + 1){
-            return self.createCellByDataCellLabel(indexPath)
+        if self.titleString != nil {
+            if(indexPath.row == 0){
+                return self.createCellByTitleLabel()
+            }else if(indexPath.row != (self.cellNumber)! + 1){
+                return self.createCellByDataCellLabel(indexPath)
+            }
+        }else{
+            if(indexPath.row != (self.cellNumber)!){
+                return self.createCellByDataCellLabel(indexPath)
+            }
         }
-        
-        return self.createBottomCancelButton(text: self.titleString!)
+        return self.createBottomCancelButton(text: self.cancelString!)
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if(indexPath.row == 0){
-            return titleCellHeight
-        }else if(indexPath.row !=  self.cellNumber! + 1 ){
-            return dataCellHight
+        if self.titleString != nil {
+            if(indexPath.row == 0){
+                return titleCellHeight
+            }else if(indexPath.row !=  self.cellNumber! + 1 ){
+                return dataCellHight
+            }else{
+                return cancelCellHight
+            }
         }else{
-            return cancelCellHight
+            if(indexPath.row !=  self.cellNumber! ){
+                return dataCellHight
+            }else{
+                return cancelCellHight
+            }
         }
+
+
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        if self.titleString == nil {
+            return (self.cellNumber)! + 1
+        }
+
         if(self.dataSourceArray != nil && self.cellNumber != 0){
             return (self.cellNumber)! + 2
         }
@@ -101,6 +122,12 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
      - returns: cell
      */
     func createCellByDataCellLabel(index:NSIndexPath)->UITableViewCell{
+
+        var i = 0;
+        if self.titleString == nil {
+            i = 1
+        }
+
         let cell : UITableViewCell = self.dequeueReusableCellWithIdentifier("MSYIdentifier", forIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         var label:UILabel? = cell.contentView.viewWithTag(19) as? UILabel
         if(label == nil){
@@ -109,9 +136,9 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
             let line : UIView = self.createCellBottonLine(frame: CGRectMake(0,self.dataCellHight - 0.5 ,self.frame.size.width,0.5))
             cell.contentView.addSubview(line)
         }
-        let obj : AnyObject? = self.dataSourceArray![index.row - 1];
+        let obj : AnyObject? = self.dataSourceArray![index.row - 1 + i];
         if(obj is String){
-            let text : String = (self.dataSourceArray![index.row - 1] as? String)!
+            let text : String = (self.dataSourceArray![index.row - 1 + i] as? String)!
             label?.text = text
         }else{
             let text : NSMutableAttributedString = (self.dataSourceArray![index.row - 1] as? NSMutableAttributedString)!
@@ -130,6 +157,8 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
             let line : UIView = UIView(frame: CGRectMake(0,0,self.frame.size.width,10))
             line.backgroundColor = UIColor(red: 242 / 255.0, green: 242 / 255.0, blue: 242 / 255.0, alpha: 1)
             cell.addSubview(line)
+            let tap = UITapGestureRecognizer.init(target: self, action: Selector("bug"))
+            line.addGestureRecognizer(tap)
             label = self.createLabelFactoryColor(color: UIColor(red: 150 / 255.0, green: 150 / 255.0, blue: 150 / 255.0, alpha: 1), tag: 20, frame: CGRectMake(0,10 ,self.frame.size.width,self.cancelCellHight - 10), fontSize:17)
             cell.contentView.addSubview(label!)
         }
@@ -150,6 +179,12 @@ class JKMMCustomTableView: UITableView ,UITableViewDelegate,UITableViewDataSourc
         label.userInteractionEnabled = true
         self.addGestureToView(label)
         return label
+    }
+
+    func bug() -> Void {
+        if(self.cellDidCliked != nil){
+            self.cellDidCliked!(text: self.cancelString!)
+        }
     }
     /**
      添加手势给视图

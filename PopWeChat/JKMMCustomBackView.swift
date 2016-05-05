@@ -45,11 +45,16 @@ class JKMMCustomBackView: UIView {
      - parameter title:     内容的标题
      - parameter cannle:    返回按钮的辩题
      */
-    func createCustomViewData(dataTitle dataTitle:NSArray,title:String,cannle:String,cellDidCliked:Closures){
+    func createCustomViewData(dataTitle dataTitle:NSArray,title:String?,cannle:String,cellDidCliked:Closures){
         let temp : CGFloat = CGFloat(dataTitle.count)
-        self.tableViewHeight = titleCellHeight + (temp * dataCellHight) + cancelCellHight
+        if title == nil {
+            self.tableViewHeight = (temp * dataCellHight ) + cancelCellHight
+        }else{
+            self.tableViewHeight = titleCellHeight + (temp * dataCellHight) + cancelCellHight
+        }
         self.tableView?.frame = CGRectMake(0,MSYWindowsHeight, MSYWindowsWidth, self.tableViewHeight!)
         self.tableView!.setCellValue(title: title, dataCell: dataTitle, cancelString: cannle, cellDidCliked: cellDidCliked)
+        self.showView()
     }
     
    //展开这个视图
@@ -70,8 +75,10 @@ class JKMMCustomBackView: UIView {
                 self.tableView?.frame.origin = CGPointMake(0, self.MSYWindowsHeight)
             }) { (flag : Bool) -> Void in
                 self.tableView?.removeFromSuperview();
+                self.tableView = nil
                 UIView.animateWithDuration(0.1, animations: { () -> Void in
                     self.removeFromSuperview()
+
                 })
         }
     }
