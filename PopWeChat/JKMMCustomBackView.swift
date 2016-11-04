@@ -8,36 +8,40 @@
 import UIKit
 
 
-typealias Closures = (text : String)-> Void
+typealias Closures = (String)-> Void
 
 
 class JKMMCustomBackView: UIView {
 
-    private var tableView : JKMMCustomTableView?
-    private let MSYWindowsWidth : CGFloat = UIScreen.mainScreen().bounds.size.width
-    private let MSYWindowsHeight : CGFloat = UIScreen.mainScreen().bounds.size.height
+    fileprivate var tableView : JKMMCustomTableView?
+    fileprivate let MSYWindowsWidth : CGFloat = UIScreen.main.bounds.size.width
+    fileprivate let MSYWindowsHeight : CGFloat = UIScreen.main.bounds.size.height
     
     
-    private let titleCellHeight:CGFloat = 30
-    private let dataCellHight:CGFloat = 40
-    private let cancelCellHight:CGFloat = 50
+    fileprivate let titleCellHeight:CGFloat = 30
+    fileprivate let dataCellHight:CGFloat = 40
+    fileprivate let cancelCellHight:CGFloat = 50
     
-    private var tableViewHeight :CGFloat?
+    fileprivate var tableViewHeight :CGFloat?
     
-    override init(frame: CGRect) {
+    override init(frame:CGRect) {
         super.init(frame: frame)
         self.createView()
         self.createAction()
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
     }
+    convenience init(frame:CGRect,dataTitle:NSArray,title:String?,cannle:String,cellDidCliked:@escaping Closures) {
+        self.init(frame:frame)
+        self.createCustomViewData(dataTitle:dataTitle,title: title,cannle:cannle,cellDidCliked:cellDidCliked)
+    }
+    
     /**
      创建活动事件
      */
-    func createAction(){
-        let tap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("closeView"))
+    fileprivate func createAction(){
+        let tap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(JKMMCustomBackView.closeView))
         self.addGestureRecognizer(tap)
     }
-    
     /**
      创建背景视图，创建列表，
      
@@ -45,49 +49,50 @@ class JKMMCustomBackView: UIView {
      - parameter title:     内容的标题
      - parameter cannle:    返回按钮的辩题
      */
-    func createCustomViewData(dataTitle dataTitle:NSArray,title:String?,cannle:String,cellDidCliked:Closures){
-        let temp : CGFloat = CGFloat(dataTitle.count)
+    fileprivate func createCustomViewData(dataTitle:NSArray,title:String?,cannle:String,cellDidCliked:@escaping Closures) -> Void {
+        let temp: CGFloat = CGFloat(dataTitle.count)
         if title == nil {
-            self.tableViewHeight = (temp * dataCellHight ) + cancelCellHight
+            self.tableViewHeight = (temp * dataCellHight) + cancelCellHight
         }else{
             self.tableViewHeight = titleCellHeight + (temp * dataCellHight) + cancelCellHight
         }
-        self.tableView?.frame = CGRectMake(0,MSYWindowsHeight, MSYWindowsWidth, self.tableViewHeight!)
+        self.tableView?.frame = CGRect(x: 0,y: MSYWindowsHeight, width: MSYWindowsWidth, height: self.tableViewHeight!)
         self.tableView!.setCellValue(title: title, dataCell: dataTitle, cancelString: cannle, cellDidCliked: cellDidCliked)
         self.showView()
     }
     
+    
    //展开这个视图
-    func showView(){
-        let windows : UIWindow =  UIApplication.sharedApplication().keyWindow!
+    fileprivate func showView(){
+        let windows : UIWindow =  UIApplication.shared.keyWindow!
         windows .addSubview(self)
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
-            }) { (flag:Bool) -> Void in
-                UIView.animateWithDuration(0.2, animations: { () -> Void in
-                    self.tableView?.frame.origin = CGPointMake(0, self.MSYWindowsHeight - self.tableViewHeight!)
+            }, completion: { (flag:Bool) -> Void in
+                UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                    self.tableView?.frame.origin = CGPoint(x: 0, y: self.MSYWindowsHeight - self.tableViewHeight!)
                 })
-        }
+        }) 
     }
     //关闭这个视图
     func closeView(){
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.tableView?.frame.origin = CGPointMake(0, self.MSYWindowsHeight)
-            }) { (flag : Bool) -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                self.tableView?.frame.origin = CGPoint(x: 0, y: self.MSYWindowsHeight)
+            }, completion: { (flag : Bool) -> Void in
                 self.tableView?.removeFromSuperview();
                 self.tableView = nil
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                UIView.animate(withDuration: 0.1, animations: { () -> Void in
                     self.removeFromSuperview()
 
                 })
-        }
+        }) 
     }
     
         /**
      创建视图
      */
-    func createView(){
-        self.tableView = JKMMCustomTableView(frame: CGRectMake(0, 0, MSYWindowsWidth, 0), style: UITableViewStyle.Plain)
+    fileprivate func createView(){
+        self.tableView = JKMMCustomTableView(frame: CGRect(x: 0, y: 0, width: MSYWindowsWidth, height: 0), style: UITableViewStyle.plain)
         self.addSubview(self.tableView!)
     }
     required init?(coder aDecoder: NSCoder) {
